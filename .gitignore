@@ -2,3 +2,6 @@ runs
 training
 weights
 output_vid
+__pycache__
+*.pt
+*.pth
