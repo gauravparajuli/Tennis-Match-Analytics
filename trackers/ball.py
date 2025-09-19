@@ -1,10 +1,24 @@
 from ultralytics import YOLO
 import cv2
 import pickle
+import pandas as pd
 
 class BallTracker:
     def __init__(self, model_path):
         self.model = YOLO(model_path)
+        
+    def interpolate_ball_positions(self, ball_positions):
+        ball_positions = [x.get(1, []) for x in ball_positions]
+        df_ball_positions = pd.DataFrame(ball_positions, columns=['x1', 'y1', 'x2', 'y2'])
+
+        # interpret the missing values
+        df_ball_positions = df_ball_positions.interpolate()
+        df_ball_positions = df_ball_positions.bfill() # incase the first frame doesn't have any detections, we need this to prevent the code from crashing
+
+        ball_positions = [{1: x} for x in df_ball_positions.to_numpy().tolist()]
+
+        return ball_positions
+
 
     def detect_frame(self, frame):
         results = self.model.predict(frame, conf=0.15)[0] # persist=True is only for tracking, here we are just detecting

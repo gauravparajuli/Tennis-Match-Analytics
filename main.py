@@ -12,6 +12,7 @@ def main():
     ball_tracker = BallTracker(model_path=r'weights\ball_detection\best.pt')
     player_detections = player_tracker.detect_frames(frames, read_from_stub=True, stub_path='tracker_stubs/player_detections.pkl')
     ball_detections = ball_tracker.detect_frames(frames, read_from_stub=True, stub_path='tracker_stubs/ball_detections.pkl')
+    ball_detections = ball_tracker.interpolate_ball_positions(ball_detections) # interpolate the ball position in missing frame
 
     # detect court lines
     court_model_path = r'weights\tennis_court_keypoints.pth'
