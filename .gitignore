@@ -5,3 +5,4 @@ output_vid
 __pycache__
 *.pt
 *.pth
+tracker_stubs
