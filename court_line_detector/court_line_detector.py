@@ -28,8 +28,8 @@ class CourtlineDetector:
         keypoints = outputs.squeeze().cpu().numpy()
         original_h, original_w = img_rgb.shape[:2]
 
-        keypoints[::2] *= original_w/244.0
-        keypoints[1::2] *= original_h/244.0
+        keypoints[::2] *= original_w/224.0
+        keypoints[1::2] *= original_h/224.0
 
         return keypoints
     
