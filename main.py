@@ -1,6 +1,7 @@
 from utils import read_video, save_video
 from trackers import PlayerTracker, BallTracker
 from court_line_detector import CourtlineDetector
+from mini_court import MiniCourt
 import cv2
 
 def main():
@@ -23,6 +24,9 @@ def main():
     # choose persons that are nearest to the court as players
     player_detections = player_tracker.choose_and_filter_players(court_keypoints, player_detections)
 
+    # Minicourt
+    mini_court = MiniCourt(frames[0])
+
     # draw output
     ## draw player and ball bounding boxes
     output_video_frames = player_tracker.draw_bboxes(frames, player_detections)
@@ -30,6 +34,9 @@ def main():
 
     ## draw court keypoints
     output_video_frames = court_line_detector.draw_keypoints_on_video(output_video_frames, court_keypoints)
+
+    # Draw mini court
+    output_video_frames = mini_court.draw_mini_court(output_video_frames)
 
     # draw frame number on top left corner
     for i, frame in enumerate(output_video_frames):
