@@ -1,7 +1,7 @@
 from utils import read_video, save_video
 from trackers import PlayerTracker, BallTracker
 from court_line_detector import CourtlineDetector
-from utils import measure_distance, draw_player_stats, convert_meters_to_pixel_distance
+from utils import measure_distance, draw_player_stats, convert_meters_to_pixel_distance, convert_pixel_distance_to_meters
 from mini_court import MiniCourt
 import constants
 from copy import deepcopy
@@ -60,7 +60,7 @@ def main():
 
         # get distance covered by the ball
         distance_covered_by_ball_pixels = measure_distance(ball_mini_court_detections[start_frame][1], ball_mini_court_detections[end_frame][1])
-        distance_covered_by_ball_meters = convert_meters_to_pixel_distance(distance_covered_by_ball_pixels, constants.DOUBLE_LINE_WIDTH, mini_court.get_width_of_mini_court())
+        distance_covered_by_ball_meters = convert_pixel_distance_to_meters(distance_covered_by_ball_pixels, constants.DOUBLE_LINE_WIDTH, mini_court.get_width_of_mini_court())
 
         # calculate speed of the ball in km/h
         speed_of_ball_shot = distance_covered_by_ball_meters/ball_shot_time_in_seconds * 3.6
@@ -72,7 +72,7 @@ def main():
         # opponent player speed
         opponent_player_id = 1 if player_shot_ball == 2 else 2
         distance_covered_by_opponent_pixels = measure_distance(player_mini_court_detections[start_frame][opponent_player_id], player_mini_court_detections[end_frame][opponent_player_id])
-        distance_covered_by_opponent_meters = convert_meters_to_pixel_distance(distance_covered_by_opponent_pixels, constants.DOUBLE_LINE_WIDTH, mini_court.get_width_of_mini_court())
+        distance_covered_by_opponent_meters = convert_pixel_distance_to_meters(distance_covered_by_opponent_pixels, constants.DOUBLE_LINE_WIDTH, mini_court.get_width_of_mini_court())
         speed_of_opponent = distance_covered_by_opponent_meters / ball_shot_time_in_seconds * 3.6
 
         current_player_stats = deepcopy(player_stats_data[-1])
